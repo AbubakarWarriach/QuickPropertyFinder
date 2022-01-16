@@ -163,3 +163,26 @@ module.exports.updateProfilePhoto = async (req, res) => {
         }
     });
 }
+
+
+module.exports.fetchDealerHome = async (req, res) => {
+    try {
+        const response = await User.find({  }).limit(4);
+        //console.log(response);
+        return res.status(201).json( response );
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+
+module.exports.fetchDealerDetail = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const response = await User.findOne({ _id: id });
+        //console.log(response);
+        return res.status(201).json( response );
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}

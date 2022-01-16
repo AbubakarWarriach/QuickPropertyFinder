@@ -16,7 +16,7 @@ const PropertyDetails = () => {
     return (
         <div className="container property-details-card">
             <div>
-                <img src="" class="img-fluid" alt="image not found" />
+                <img src={`/PropertyImages/${property.photo}`} className="img-fluid" alt="image not found" />
                 <div>
                     <span className="lead">QuickPropertyFinder / </span>
                     <span className="lead">Homes / </span>

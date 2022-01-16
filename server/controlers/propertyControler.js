@@ -1,5 +1,7 @@
 const formidable = require('formidable');
 const { Property } = require('../model/propertySchema');
+const { User } = require('../model/userSchema');
+
 const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
 
@@ -109,22 +111,199 @@ module.exports.fetchProperties = async (req, res) => {
     const parPage = 3;
     const skip = (Number(page) - 1) * parPage;
     try {
-       const count = await Property.find({ userId: id }).countDocuments();
-       //console.log(count);
-       const response = await Property.find({ userId: id }).skip(skip).limit(parPage);//.sort({title: -1})
-       //1console.log(response);
-       return res.status(201).json({ response, parPage, count });
+        const count = await Property.find({ userId: id }).countDocuments();
+        //console.log(count);
+        const response = await Property.find({ userId: id }).skip(skip).limit(parPage);//.sort({title: -1})
+        //1console.log(response);
+        return res.status(201).json({ response, parPage, count });
     } catch (err) {
-       return res.status(400).json({ errors: err.message });
+        return res.status(400).json({ errors: err.message });
     }
- }
+}
 
- module.exports.fetchProperty = async(req, res) => {
+module.exports.fetchProperty = async (req, res) => {
     const id = req.params.id;
-    try{
-        const propertyData = await Property.findOne({_id: id});
-        return res.status(200).json({propertyData});
-    }catch(err){
+    try {
+        const propertyData = await Property.findOne({ _id: id });
+        return res.status(200).json({ propertyData });
+    } catch (err) {
         return res.status(400).json({ msg: "error" });
     }
- }
+}
+
+module.exports.updatePropertyFeatures = async (req, res) => {
+    const id = req.params.id;
+    //const formData = req.body;
+    console.log(id);
+    const { purpose, propertyType, type, title, description, city, location, price, area, unit,
+        bathrooms, bedrooms, diningroom, distanceairport, drawingroom, electricitybackup,
+        flooring, gym, nearbyhospital, nearbyrestaurants, nearbyschoole, nearbyshoppingmalls,
+        prayer_room, servantquarters, sewerage, studyroom, suigas, watersupply } = req.body;
+    try {
+        const propertyDetails = await Property.findByIdAndUpdate(id, {
+            purpose,
+            propertyType,
+            type,
+            city,
+            location,
+            title,
+            description,
+            price,
+            area,
+            unit,
+            features: {
+                bedrooms,
+                drawingroom,
+                bathrooms,
+                diningroom,
+                servantquarters,
+                studyroom,
+                electricitybackup,
+                prayer_room,
+                flooring,
+                gym,
+                nearbyschoole,
+                nearbyhospital,
+                nearbyshoppingmalls,
+                nearbyrestaurants,
+                distanceairport,
+                sewerage,
+                watersupply,
+                suigas
+            }
+        });
+        return res.status(201).json({ propertyDetails });
+    } catch (error) {
+        return res.status(400).json({ msg: "error" });
+    }
+}
+
+module.exports.updatePropertyImage = async (req, res) => {
+    const id = req.params.id;
+    const form = formidable({ multiples: true });
+    form.parse(req, async (err, fields, files) => {
+        console.log(files);
+        if (!err) {
+            //set image path
+            const { mimetype } = files.photo;
+            const split = mimetype.split("/");
+            const extension = split[1].toLowerCase();
+            files.photo.originalFilename = uuidv4() + "." + extension;
+            const newPath = __dirname + `/../../client/public/PropertyImages/${files.photo.originalFilename}`;
+            //copy image and save data into mongoDB
+            fs.copyFile(files.photo.filepath, newPath, async (err) => {
+                if (!err) {
+                    try {
+                        const propertyDetails = await Property.findByIdAndUpdate(id, { photo: files.photo.originalFilename }, { new: true });
+                        return res.status(201).json({ propertyDetails });
+                    } catch (error) {
+                        return res.status(400).json({ msg: "Server Error" });
+                    }
+                }
+            })
+        } else {
+            return res.status(400).json({ msg: "Internal Server Error" });
+        }
+    })
+}
+
+// controler fetch Homes properties for showing Home page...
+module.exports.fetchHomes = async (req, res) => {
+    try {
+        const response = await Property.find({ propertyType: "Homes" }).limit(4);
+        //console.log(response);
+        return res.status(201).json( response );
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+// controler fetch Plots for showing Home page...
+module.exports.fetchPlots = async (req, res) => {
+    try {
+        const response = await Property.find({ propertyType: "Plots" }).limit(4);
+        //console.log(response);
+        return res.status(201).json( response );
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+module.exports.fetch_Plots_With_Pagination = async(req, res) => {
+    const page = req.params.page;
+    const parPage = 3;
+    const skip = (Number(page) - 1) * parPage;
+    try {
+        const count = await Property.find({ propertyType: "Plots" }).countDocuments();
+        // console.log(count);
+        const response = await Property.find({ propertyType: "Plots" }).skip(skip).limit(parPage);//.sort({title: -1})
+        //1console.log(response);
+        return res.status(201).json({ response, parPage, count });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+
+module.exports.fetch_Homes_With_Pagination = async(req, res) => {
+    const page = req.params.page;
+    const parPage = 3;
+    const skip = (Number(page) - 1) * parPage;
+    try {
+        const count = await Property.find({ propertyType: "Homes" }).countDocuments();
+        // console.log(count);
+        const response = await Property.find({ propertyType: "Homes" }).skip(skip).limit(parPage);//.sort({title: -1})
+        //1console.log(response);
+        return res.status(201).json({ response, parPage, count });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+/*
+//controler fetch comercial type properties for Plots page....
+module.exports.fetchComercialPlots = async (req, res) => {
+    try {
+        const response = await Property.find({ type: "commercial plots" }).limit(2);
+        //console.log(response);
+        return res.status(201).json({ response });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+//controler fetch residential type properties for Plots page....
+module.exports.fetchResidentialPlots = async (req, res) => {
+    try {
+        const response = await Property.find({ type: "residential plots" }).limit(2);
+        //console.log(response);
+        return res.status(201).json({ response });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+//controler fetch agricultural type properties for Plots page....
+module.exports.fetchAgriculturalPlots = async (req, res) => {
+    try {
+        const response = await Property.find({ type: "agricultural plots" }).limit(2);
+        //console.log(response);
+        return res.status(201).json({ response });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+*/
+//controler fetch client search properties....
+module.exports.fetchClientSearch = async (req, res) => {
+    console.log(req.body);
+    try {
+        const {city,location,min_area,max_area,min_price,max_price,unit,type}=req.body
+        const response = await Property.find({$or:[{city:city},{location:location},{unit:unit},{type:type},
+            {$or:[{area:{$gte:min_area}},{area:{$lte:max_area}},{price:{$gte:min_price}},{price:{$lte:max_price}}]}
+        ]})
+        //console.log(response);
+        return res.status(201).json({ response });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}

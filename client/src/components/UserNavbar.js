@@ -11,7 +11,7 @@ const UserNavbar = (props) => {
         history.push("/login");
     }
     return (
-        <nav className="navbar navbar-expand-lg bg-success">
+        <nav className="navbar navbar-expand-lg">
             <div className="container">
                 <Link to="/" className="navbar-brand">QuickPropertyFinder</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,13 +24,10 @@ const UserNavbar = (props) => {
                                 <Link to="/" className="nav-link active">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/about" className="nav-link">About</Link>
+                                <Link to="/plots" className="nav-link">Plots</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/property" className="nav-link">Property</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/dealers" className="nav-link">Dealers</Link>
+                                <Link to="/homes" className="nav-link">Homes</Link>
                             </li>
                             <li className="nav-item">
                                 <Link to="/profile" className="nav-link">{props.user.fname+"_"+props.user.lname}</Link>
@@ -42,7 +39,7 @@ const UserNavbar = (props) => {
                                 <Link to="/dashboard" className="nav-link">Dashboard</Link>
                             </li>
                             <li className="nav-item">
-                                <span className="nav-link" onClick={handleLogout}>Logout</span>
+                                <span className="nav-link" style={{cursor: 'pointer'}} onClick={handleLogout}>Logout</span>
                             </li>
                         </ul>
                     </div>

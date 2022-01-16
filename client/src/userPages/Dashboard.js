@@ -7,7 +7,7 @@ import axios from "axios";
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const Dashboard = () => {
-    // const [data, setData] = useState([]);
+    const pageName = "dashboard";
     const { user: { _id } } = useSelector(state => state.AuthReducer);
     const { properties, count, parPage } = useSelector(state => state.PropertyReducer);
     console.log(properties);
@@ -38,7 +38,7 @@ const Dashboard = () => {
                                         </span>
                                         <span>
                                             <span className="text-success mx-2 edit-btn">
-                                                <Link to="/update_property"><BsFillPenFill/></Link>
+                                                <Link to={`/update_property/${val._id}`}><BsFillPenFill/></Link>
                                             </span>
                                             <span className="text-danger mx-1 del-btn"><BsFillTrashFill/></span>
                                         </span>
@@ -47,7 +47,7 @@ const Dashboard = () => {
                                 </div>
                             ))}
                     </div> : <div>empty</div>}
-                    <Pagination count={count} parPage={parPage} page={page} />
+                    <Pagination count={count} parPage={parPage} page={page} pageName={pageName} />
                 </div>
             </div>
         </div>

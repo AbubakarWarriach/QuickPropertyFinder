@@ -3,34 +3,59 @@
     padding: 0;
     box-sizing: border-box;
 }
-/* start css for navbar component */
-a{
-    text-decoration: none;
+
+body{
+    background-color: #ffffff;
 }
-span.nav-link{
-    cursor: pointer;
-}
-.nav-link, .navbar-brand{
-    color: whitesmoke;
-}
-.navbar-brand:hover{
-    color: whitesmoke;
-}
-Link:active{
-    color: gray;
-}
-.nav-link:hover{
-    background-color: #10ac84;
-    color: whitesmoke;
-    border-radius: 5px;
-}
+
 .label-righ{
     display: flex;
     justify-content: end;
     align-items: center;
 }
-/* end css for navbar component */
-
+/* 
+==============================
+Start css for navbar component
+==============================
+*/
+.navbar{
+	background-color: #20bf6b;
+	box-shadow: 2px 2px 10px #ced6e0;
+}
+.navbar-toggler{
+	color: whitesmoke;
+}
+.navbar-right{
+	margin-left: auto;
+}
+.navbar-brand{
+	color: whitesmoke;
+	font-size: x-large;
+	font-weight: bold;
+}
+.navbar-brand:hover{
+	color: whitesmoke;
+}
+.nav-link{
+	color: whitesmoke;
+	font-size: large;
+}
+.nav-link:hover{
+	color: whitesmoke;
+	background-color: #26de81;
+	outline: none;
+	border-radius: 5px;
+}
+/* 
+============================
+end css for navbar component
+============================ 
+*/
+/* 
+=============================================
+Start css for Property Details form component
+=============================================
+*/
 .form-label{
     margin: 2px!important;
 }
@@ -39,17 +64,350 @@ Link:active{
 }
 .error{
     color: red;
+    margin-left: 3px;
 }
-.profile-column{
-    border: none;
-    border-radius: 5px;
-    background-color: lightblue;
-    box-shadow: 0px 2px 5px gray;
+/* 
+===========================================
+End css for Property Details form component
+===========================================
+*/
+/* 
+===========================================
+Start css for Header section form component
+===========================================
+*/
+
+.header-section{
+	height: 90vh;
+	background-image: url("./Images/slide-2.jpg");
+	background-size: cover;
+	background-attachment: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-.profile-btn{
+.inner-header-section{
+	margin-top: 150px;
+	margin-bottom: 150px;
+}
+.search-form{
+	margin: auto;
+	/*display: flex;
+	justify-content: center;
+	align-items: center;*/
+	background-color: rgba(116, 125, 140,0.8);
+	padding: 20px;
+	border-radius: 6px;
+}
+.header-section-plot{
+    height: 50vh;
+    background-image: url("./Images/slide-1.jpg");
+}
+.inner-header-section-plot{
+    margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+/* 
+=========================================
+End css for Header section form component
+=========================================
+*/
+/* 
+=================================================
+Start css for Hot Property section form component
+=================================================
+*/
+
+.hot-property-heading{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.hot-property-heading>h1{
+    font-weight: bold;
+    text-shadow: 1px 1px 3px lightgray;
+}
+.hot-property-heading>h5{
+    color: #e23f3f;
+    font-weight: 400;
+}
+.hot-property-button{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
+.card{
+    box-shadow: 1px 1px 5px lightgray;
+    border: 1px solid #26de81;
+}
+.card:hover{
+    box-shadow: 3px 3px 15px lightgray, -3px -3px 15px lightgray;
+}
+.card-body{
+    background-color: #f1f2f6;
+}
+.card-footer{
+    background-color: #26de81;
+}
+.card-footer:hover{
+    /* background-color: #20bf6b;
+    color: red; */
+    font-weight: bold;
+}
+.hot-property-button>button{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-left: 100px;
+    padding-right: 100px;
+    font-weight: bold;
+}
+.link{
+    text-decoration: none;
+    color: whitesmoke;
+}
+.link:hover{
+    color: whitesmoke;
+}
+
+/* 
+===========================================
+End for Hot Property section form component
+===========================================
+*/
+/* 
+===========================================
+Start for Top Dealers section form component
+===========================================
+*/
+.card-box {
+    padding: 20px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    background-color: #fff;
+}
+.card-box:hover{
+    box-shadow: 2px 2px 5px lightgray, -2px -2px 5px lightgray;
+}
+.thumb-lg {
+    height: 88px;
+    width: 88px;
+}
+.profile-image-home {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    max-width: 80px;
+    height: 80px;
+}
+.btn-rounded {
+    border: none;
+    border-radius: 2em;
+    background-color: #20bf6b;
+}
+.btn-rounded:hover{
+    background-color: #128849;
+}
+.text-muted {
+    color: #98a6ad!important;
+}
+h4 {
+    line-height: 22px;
+    font-size: 18px;
+}
+/* 
+===========================================
+End for Top Dealers section form component
+===========================================
+*/
+/* 
+==============================================
+Start for Dealer Detail section form component
+==============================================
+*/
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+.gray-bg {
+    background-color: #f5f5f5;
+}
+img {
+    max-width: 100%;
+}
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+/* About Me 
+---------------------*/
+.about-text h3 {
+  font-size: 45px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+@media (max-width: 767px) {
+  .about-text h3 {
+    font-size: 35px;
+  }
+}
+.about-text h6 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+@media (max-width: 767px) {
+  .about-text h6 {
+    font-size: 18px;
+  }
+}
+.about-text p {
+  font-size: 18px;
+  max-width: 450px;
+}
+.about-text p mark {
+  font-weight: 600;
+  color: #20bf6b;
+}
+
+.about-list {
+  padding-top: 10px;
+}
+.about-list .media {
+  padding: 5px 0;
+}
+.about-list label {
+  color: #20bf6b;
+  font-weight: 600;
+  width: 88px;
+  margin: 0;
+  position: relative;
+}
+.about-list label:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 11px;
+  width: 1px;
+  height: 12px;
+  background: #20bf6b;
+  -moz-transform: rotate(15deg);
+  -o-transform: rotate(15deg);
+  -ms-transform: rotate(15deg);
+  -webkit-transform: rotate(15deg);
+  transform: rotate(15deg);
+  margin: auto;
+  opacity: 0.5;
+}
+.about-list p {
+  margin: 0;
+  font-size: 15px;
+}
+
+@media (max-width: 991px) {
+  .about-avatar {
+    margin-top: 30px;
+  }
+}
+
+.about-section .counter {
+  padding: 22px 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+}
+.about-section .counter .count-data {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.about-section .counter .count {
+  font-weight: 700;
+  color: #20bf6b;
+  margin: 0 0 5px;
+}
+.about-section .counter p {
+  font-weight: 600;
+  margin: 0;
+}
+mark {
+    background-image: linear-gradient(rgba(252, 83, 86, 0.6), rgba(252, 83, 86, 0.6));
+    background-size: 100% 3px;
+    background-repeat: no-repeat;
+    background-position: 0 bottom;
+    background-color: transparent;
+    padding: 0;
+    color: currentColor;
+}
+.theme-color {
+    color: #fc5356;
+}
+.dark-color {
+    color: #20bf6b;
+}
+.profile-update-button{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/* 
+============================================
+End for Dealer Detail section form component
+============================================
+*/
+/* 
+============================================
+Start css for forms section form component
+============================================
+*/
+
+.signup-form{
+    margin: 20px;
+    padding: 12px;
+    border-radius: 2px;
+    background-color: #f1f2f6;
+    box-shadow: 2px 2px 5px lightgray, -2px -2px 5px lightgray;
+}
+.login-form-main{
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-form{
+    padding: 12px;
+    border-radius: 2px;
+    background-color: #f1f2f6;
+    box-shadow: 2px 2px 5px lightgray, -2px -2px 5px lightgray;
+}
+
+/* 
+============================================
+End css for forms section form component
+============================================
+*/
+/* 
+============================================
+Start css for property list form component
+============================================
+*/
+
+.right-side-details{
+    background-color: #f1f2f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 
+============================================
+End css for property list form component
+============================================
+*/
+
+
+
+
 .td-title{
     padding-right: 2rem;
 }
@@ -92,6 +450,7 @@ Link:active{
 .side-bar{
     background-color: lightgray;
 }
+
 
 /* X-Small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) { 

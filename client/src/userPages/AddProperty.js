@@ -152,7 +152,7 @@ const AddProperty = () => {
                                             </label>
                                         </div>
                                         <div className="form-check form-check-inline">
-                                            <Field className="form-check-input " type="radio" name="type" id="gridRadios8" value="residetial plots" />
+                                            <Field className="form-check-input " type="radio" name="type" id="gridRadios8" value="residential plots" />
                                             <label className="form-check-label" for="gridRadios8">
                                                 Residential Plots
                                             </label>

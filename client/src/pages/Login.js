@@ -7,8 +7,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { SET_TOKON } from '../store/reducers/AuthReducer';
 
 const validationSchema = Yup.object({
-    email: Yup.string().email("Invaliad").required("Required"),
-    password: Yup.string().min(6, "maximum 6 length").max(12, "too long").required("Required"),
+    email: Yup.string().email("Invaliad").required("email must be required"),
+    password: Yup.string().min(6, "maximum 6 length").max(12, "too long").required("password must be required"),
 });
 
 const Login = () => {
@@ -16,11 +16,9 @@ const Login = () => {
     return (
         <div className="container">
             <Toaster />
-            <div className="row">
-                <div className="col-12 my-3">
-                    <h1 className="text-center">Registration</h1>
-                </div>
-                <div className="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-10 mx-auto mb-5">
+            <div className="row login-form-main">
+                <div className="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-10 mx-auto mb-5 login-form">
+                <h1 className="text-center">Login</h1>
                     <Formik
                         initialValues={{
                             email: '',
