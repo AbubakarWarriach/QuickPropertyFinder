@@ -1,12 +1,34 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from 'axios';
+import { useDispatch } from "react-redux";
+import { SET_SEARCH } from "../store/reducers/SearchReducer";
 
 const Home = () => {
-    //const {page} = useParams();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const [searchData, setSearchData] = useState({});
     const [homesPropertyData, setHomesPropertyData] = useState([]);
     const [plotsPropertyData, setPlotsPropertyData] = useState([]);
     const [dealersData, setDealersData] = useState([]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(searchData);
+        dispatch({ type: SET_SEARCH, paylood: searchData });
+        history.push('/your_dream_properties');
+    }
+
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        console.log(name, " : ", value);
+        setSearchData({
+            ...searchData,
+            [name]: value,
+        })
+    }
+
     useEffect(() => {
         fetchHomesProperty(setHomesPropertyData);
         fetchPlotsProperty(setPlotsPropertyData);
@@ -18,10 +40,10 @@ const Home = () => {
                 <div class="inner-header-section">
                     <h1 class="text-light text-center">We 'll find your dream house</h1>
                     <div class="search-form">
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div class="row mb-2 g-3">
                                 <div class="col-4">
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <select class="form-select form-select-sm" name="city" onChange={handleInput} aria-label=".form-select-sm example">
                                         <option selected>All cities</option>
                                         <option value="gujrat">Gujrat</option>
                                         <option value="gujranwala">Gujranwala</option>
@@ -29,7 +51,7 @@ const Home = () => {
                                     </select>
                                 </div>
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Find location" />
+                                    <input type="text" name="location" onChange={handleInput} class="form-control form-control-sm" placeholder="Find location" />
                                 </div>
                                 <div class="col-2">
                                     <input type="submit" value="Search" class="btn btn-sm btn-success" />
@@ -37,44 +59,37 @@ const Home = () => {
                             </div>
                             <div class="row mb-2 g-3">
                                 <div class="col-4">
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <select class="form-select form-select-sm" name="type" onChange={handleInput} aria-label=".form-select-sm example">
                                         <option selected>Property Type</option>
-                                        <option value="rent">Homes</option>
-                                        <option value="sale">Plots</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                        <option selected>Sub Property Type</option>
                                         <option value="house">House</option>
+                                        <option value="flat">Flat</option>
                                         <option value="commercial">Commercial</option>
                                         <option value="residential">Residential</option>
                                         <option value="agriculture">Agricultural</option>
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                    <select class="form-select form-select-sm" name="unit" onChange={handleInput} aria-label=".form-select-sm example">
                                         <option selected>Area Unit</option>
                                         <option value="acre">Acre</option>
                                         <option value="kanal">Kanal</option>
                                         <option value="feet">Sequare Feet</option>
                                     </select>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control form-control-sm" name="min_area" onChange={handleInput} placeholder="Min area" />
                                 </div>
                             </div>
                             <div class="row mb-2 g-3">
+
                                 <div class="col-4">
-                                    <input type="number" class="form-control form-control-sm" placeholder="Min area" />
+                                    <input type="number" class="form-control form-control-sm" name="max_area" onChange={handleInput} placeholder="Max area" />
                                 </div>
                                 <div class="col-4">
-                                    <input type="number" class="form-control form-control-sm" placeholder="Max area" />
+                                    <input type="number" class="form-control form-control-sm" name="max_price" onChange={handleInput} placeholder="Max price" />
                                 </div>
                                 <div class="col-4">
-                                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                        <option selected>Area Unit</option>
-                                        <option value="acre">Acre</option>
-                                        <option value="kanal">Kanal</option>
-                                        <option value="feet">Sequare Feet</option>
-                                    </select>
+                                    <input type="number" class="form-control form-control-sm" name="max_price" onChange={handleInput} placeholder="Max price" />
                                 </div>
                             </div>
                         </form>
@@ -102,7 +117,7 @@ const Home = () => {
                                             <p className="text-center my-0">{val.location}</p>
                                         </div>
                                         <div class="card-footer text-center">
-                                            <Link to={`/dealer/${val.userId}`} class="text-muted link">View Dealer Profile</Link>
+                                            <Link to={`/dealer/${val.userId}`} class="text-light link">View Dealer Profile</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +152,7 @@ const Home = () => {
                                             <p className="text-center">Location</p>
                                         </div>
                                         <div class="card-footer text-center">
-                                            <Link to={`/dealer/${val.userId}`} class="text-muted link">View Dealer Profile</Link>
+                                            <Link to={`/dealer/${val.userId}`} class="text-light link">View Dealer Profile</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -165,7 +180,7 @@ const Home = () => {
                                     <div class="text-center card-box">
                                         <div class="member-card pt-2 pb-2">
                                             <div class="thumb-lg member-thumb mx-auto">
-                                                <img src={`/ProfileImage/${val.photo}`} class="profile-image-home" alt="profile-image" />
+                                                <img src={`/ProfileImage/${val.photo}`} class="profile-image-home" alt="not found" />
                                             </div>
                                             <div class="">
                                                 <h4>{val.fname} {val.lname}</h4>

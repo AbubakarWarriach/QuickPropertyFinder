@@ -212,7 +212,7 @@ module.exports.fetchHomes = async (req, res) => {
     try {
         const response = await Property.find({ propertyType: "Homes" }).limit(4);
         //console.log(response);
-        return res.status(201).json( response );
+        return res.status(201).json(response);
     } catch (err) {
         return res.status(400).json({ errors: err.message });
     }
@@ -223,13 +223,13 @@ module.exports.fetchPlots = async (req, res) => {
     try {
         const response = await Property.find({ propertyType: "Plots" }).limit(4);
         //console.log(response);
-        return res.status(201).json( response );
+        return res.status(201).json(response);
     } catch (err) {
         return res.status(400).json({ errors: err.message });
     }
 }
 
-module.exports.fetch_Plots_With_Pagination = async(req, res) => {
+module.exports.fetch_Plots_With_Pagination = async (req, res) => {
     const page = req.params.page;
     const parPage = 3;
     const skip = (Number(page) - 1) * parPage;
@@ -244,8 +244,7 @@ module.exports.fetch_Plots_With_Pagination = async(req, res) => {
     }
 }
 
-
-module.exports.fetch_Homes_With_Pagination = async(req, res) => {
+module.exports.fetch_Homes_With_Pagination = async (req, res) => {
     const page = req.params.page;
     const parPage = 3;
     const skip = (Number(page) - 1) * parPage;
@@ -259,6 +258,40 @@ module.exports.fetch_Homes_With_Pagination = async(req, res) => {
         return res.status(400).json({ errors: err.message });
     }
 }
+
+//controler fetch client search properties....
+module.exports.fetchClientSearch = async (req, res) => {
+    const page = req.params.page;
+    const parPage = 3;
+    const skip = (Number(page) - 1) * parPage;
+    console.log(req.body);
+    const { city, location, min_area, max_area, min_price, max_price, unit, type } = req.body;
+    try {
+        const count = await Property.find({
+            $or: [{ city: city }, { location: location }, { unit: unit }, { type: type },
+            {
+                $or: [{ area: { $gte: min_area } }, { area: { $lte: max_area } }, { price: { $gte: min_price } },
+                { price: { $lte: max_price } }]
+            }]
+        }).countDocuments();
+        const response = await Property.find({
+            $or: [{ city: city }, { location: location }, { unit: unit }, { type: type },
+            {
+                $or: [{ area: { $gte: min_area } }, { area: { $lte: max_area } }, { price: { $gte: min_price } },
+                { price: { $lte: max_price } }]
+            }]
+        }).skip(skip).limit(3);
+        //console.log(response);
+        return res.status(201).json({ response, count, parPage });
+    } catch (err) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
+
+
+
+
+
 /*
 //controler fetch comercial type properties for Plots page....
 module.exports.fetchComercialPlots = async (req, res) => {
@@ -293,17 +326,3 @@ module.exports.fetchAgriculturalPlots = async (req, res) => {
     }
 }
 */
-//controler fetch client search properties....
-module.exports.fetchClientSearch = async (req, res) => {
-    console.log(req.body);
-    try {
-        const {city,location,min_area,max_area,min_price,max_price,unit,type}=req.body
-        const response = await Property.find({$or:[{city:city},{location:location},{unit:unit},{type:type},
-            {$or:[{area:{$gte:min_area}},{area:{$lte:max_area}},{price:{$gte:min_price}},{price:{$lte:max_price}}]}
-        ]})
-        //console.log(response);
-        return res.status(201).json({ response });
-    } catch (err) {
-        return res.status(400).json({ errors: err.message });
-    }
-}

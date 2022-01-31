@@ -16,6 +16,9 @@ const Dashboard = () => {
     if (page === undefined) {
         page = 1;
     }
+    const handleDelete = (id) => {
+        
+    }
     useEffect(() => {
         // console.log(_id);
         dispatch(fetchProperties(_id, page));
@@ -40,7 +43,7 @@ const Dashboard = () => {
                                             <span className="text-success mx-2 edit-btn">
                                                 <Link to={`/update_property/${val._id}`}><BsFillPenFill/></Link>
                                             </span>
-                                            <span className="text-danger mx-1 del-btn"><BsFillTrashFill/></span>
+                                            <span className="text-danger mx-1 del-btn" onClick={handleDelete(val._id)}><BsFillTrashFill/></span>
                                         </span>
                                     </div>
                                     <hr/>

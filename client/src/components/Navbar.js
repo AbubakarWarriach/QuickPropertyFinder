@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 //import AdminDashboard from "./AdminDashboard";
 import UserNavbar from "./UserNavbar";
+import { LOGOUT_CUSTOMER } from '../store/reducers/CustomerReducer';
+
 const Navbar = () => {
+   const history = useHistory();
    const { user } = useSelector((state) => state.AuthReducer);
+   const { customer } = useSelector((state) => state.CustomerReducer);
+   const dispatch = useDispatch();
+   const handleLagout = () => {
+      dispatch({ type: LOGOUT_CUSTOMER });
+      history.push("/");
+   }
    //console.log(user);
    if (user) {
       return (
@@ -29,12 +38,17 @@ const Navbar = () => {
                         <li className="nav-item">
                            <Link className="nav-link" to="/homes">Homes</Link>
                         </li>
-                        <li className="nav-item">
-                           <Link className="nav-link" to="/signup">SignUp</Link>
-                        </li>
-                        <li className="nav-item">
-                           <Link className="nav-link" to="/login">Login</Link>
-                        </li>
+                        {customer ? <li className="nav-item">
+                           <span className="nav-link" onClick={handleLagout} style={{ cursor: 'pointer' }} >logout</span>
+                        </li> : <>
+                           <li className="nav-item">
+                              <Link className="nav-link" to="/signup">SignUp</Link>
+                           </li>
+                           <li className="nav-item">
+                              <Link className="nav-link" to="/login">Login</Link>
+                           </li>
+                        </>
+                        }
                      </ul>
                   </div>
                </div>

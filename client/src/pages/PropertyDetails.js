@@ -1,15 +1,24 @@
 import {useDispatch, useSelector} from 'react-redux';
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { BsArrowRightCircleFill } from "react-icons/bs";
 import { useEffect } from "react";
 import axios from 'axios';
 import { SET_PROPERTY } from '../store/reducers/PropertyReducer';
 
 const PropertyDetails = () => {
+    const history = useHistory()
     const dispatch = useDispatch();
     const {property} = useSelector((state)=>state.PropertyReducer);
+    const {customer} = useSelector((state)=>state.CustomerReducer);
     console.log(property);
     const { id } = useParams();
+    const handleReserve = () => {
+        if(customer){
+            history.push("/reserve_property");
+        }else{
+            history.push("/signup_customer");
+        }
+    }
     useEffect(()=>{
         dispatch(fetchProperty(id));
     }, [id]);
@@ -53,12 +62,13 @@ const PropertyDetails = () => {
                             In a dui sit amet nisl venenatis dapibus. Fusce dapibus, turpis a elementum pharetra,
                             justo tortor scelerisque velit, ut euismod purus elit ultricies sem. Fusce mollis eget
                             metus vitae tristique.</p>
+                            <button className='btn btn-success' onClick={handleReserve}>Reserve</button>
                     </div>
                 </div>
-                <div className="col-md-4 side-bar">
+                {/* <div className="col-md-4 side-bar">
                     <h4 className="text-center mt-4">Contact Form</h4>
                     <hr className="mx-4 my-4" />
-                </div>
+                </div> */}
             </div>
         </div>
     )

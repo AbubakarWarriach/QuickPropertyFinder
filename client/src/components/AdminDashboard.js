@@ -14,6 +14,8 @@ import PrivateRoute from "./PrivateRoute";
 import AdminRouteLinks from "../Admin/component/AdminRouteLink";
 import _Dashboard from "../Admin/Pages/_Dashboard";
 import _VerifyDealers from "../Admin/Pages/_VerifyDealers";
+import _UnverifyDealers from "../Admin/Pages/_UnverifyDealers";
+// import Footer from "../pages/Footer";
 
 const AdminDashboard = () => {
     const dispatch = useDispatch();
@@ -83,11 +85,13 @@ const AdminDashboard = () => {
 
                 <Switch>
                     <PrivateRoute exact path="/" component={_Dashboard} />
-                    <PrivateRoute path="/verify_dealers" component={_VerifyDealers} />
+                    <PrivateRoute path="/verify_dealers/:page?" component={_VerifyDealers} />
+                    <PrivateRoute path="/unverify_dealers" component={_UnverifyDealers} />
                     <AdminRouteLinks path="/membership" component={Signup} />
                     <AdminRouteLinks path="/login" component={Login} />
                     <Route path="/*" component={Error404} />
                 </Switch>
+                {/* <Footer /> */}
             </div>
         </div>
     )

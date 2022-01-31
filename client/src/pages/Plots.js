@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { SET_SEARCH } from "../store/reducers/SearchReducer";
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { SET_PROPERTIES } from '../store/reducers/PropertyReducer';
 import Pagination from '../components/Pagination';
@@ -108,7 +108,9 @@ const Plots = () => {
                         <div class="card mb-4" style={{ width: '100%' }} key={val._id}>
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img src={`/PropertyImages/${val.photo}`} class="img-fluid rounded-start" alt="..." />
+                                    <Link to={`/property_details/${val._id}`}>
+                                        <img src={`/PropertyImages/${val.photo}`} class="img-fluid rounded-start" alt="..." />
+                                    </Link>
                                 </div>
                                 <div class="col-md-8 right-side-details">
                                     <div class="card-body">

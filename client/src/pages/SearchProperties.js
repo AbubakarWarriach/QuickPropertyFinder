@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+//import axios from "axios";
+//import { SET_PROPERTIES } from "../store/reducers/PropertyReducer";
 
 const SearchProperties = () => {
+    let { page } = useParams();
+    //const dispatch = useDispatch();
     const [searchData, setSearchData] = useState({});
-    const {userSearch} = useSelector((state)=>state.SearchReducer);
+    const { userSearch } = useSelector((state) => state.SearchReducer);
+    //const {properties} = useSelector((state)=>state.PropertyReducer);
     console.log(userSearch);
+    //console.log(properties);
+    setSearchData(userSearch);
+    if (page === undefined) {
+        page = 1;
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(searchData);
@@ -18,9 +29,9 @@ const SearchProperties = () => {
             [name]: value,
         })
     }
-    useEffect(()=>{
-
-    },[]);
+    // useEffect(() => {
+    //     clientSearchProperties(page, dispatch, userSearch, SET_PROPERTIES);
+    // }, [userSearch, page]);
     return (
         <>
             <div class="header-section header-section-plot">
@@ -41,7 +52,7 @@ const SearchProperties = () => {
                                     <input type="text" value={userSearch.location} name="location" onChange={handleInput} class="form-control form-control-sm" placeholder="Find location" />
                                 </div>
                                 <div class="col-2">
-                                    <input type="submit"  value="Search" class="btn btn-sm btn-success" />
+                                    <input type="submit" value="Search" class="btn btn-sm btn-success" />
                                 </div>
                             </div>
                             <div class="row mb-2 g-3">
@@ -86,4 +97,24 @@ const SearchProperties = () => {
         </>
     )
 }
+/*
+const clientSearchProperties = async (page, dispatch, userSearch, SET_PROPERTIES) => {
+    try {
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        };
+        const response = await axios.post(`/fetch_client_search/${page}`, userSearch, config);
+        //dispatch({ type: Close_Loader });
+        const { count, parPage } = response.data;
+        const propertysData = response.data.response;
+        console.log(response);
+        dispatch({ type: SET_PROPERTIES, paylood: { propertysData, count, parPage } });
+    } catch (err) {
+        console.log(err.response);
+        //dispatch({ type: Close_Loader });
+    }
+}
+*/
 export default SearchProperties;

@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-const AdminRouteLinks = (props) => {
-	const { user } = useSelector((state) => state.AuthReducer);
-	return user.admin ? (
+const RouteCheck = (props) => {
+	const { customer } = useSelector((state) => state.CustomerReducer);
+	return customer ? (
 		<Redirect to='/' />
 	) : (
 		<Route path={props.path} component={props.component} />
 	);
 };
-export default AdminRouteLinks;
+export default RouteCheck;

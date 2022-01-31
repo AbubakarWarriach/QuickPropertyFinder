@@ -4,7 +4,7 @@ export const LOGOUT="LOGOUT";
 
 const initState = {
     token: '',
-    user: '',
+    user: {},
 };
 const verifyToken = (token) => {
     const decodedToken = jwt_decode(token);

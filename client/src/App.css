@@ -404,6 +404,11 @@ Start css for property list form component
 End css for property list form component
 ============================================
 */
+.footerStyle{
+    background-color: #20bf6b;
+    margin-bottom: 0!important;
+    bottom: 0;
+}
 
 
 
