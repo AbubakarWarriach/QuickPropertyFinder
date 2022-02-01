@@ -30,7 +30,7 @@ const SearchProperties = () => {
         })
     }
     // useEffect(() => {
-    //     clientSearchProperties(page, dispatch, userSearch, SET_PROPERTIES);
+    //     clientSearchProperties(page, dispatch, userSearch);
     // }, [userSearch, page]);
     return (
         <>
@@ -98,7 +98,7 @@ const SearchProperties = () => {
     )
 }
 /*
-const clientSearchProperties = async (page, dispatch, userSearch, SET_PROPERTIES) => {
+const clientSearchProperties = async (page, dispatch, userSearch) => {
     try {
         const config = {
             headers: {

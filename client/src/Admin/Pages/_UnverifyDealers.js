@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_UNVERIFY_USER } from "../../store/reducers/AdminReducer";
 
 const _UnverifyDealers = () => {
     const dispatch = useDispatch();
+    const [reload, setReload] = useState(false);
     const { unverifyUser } = useSelector((state) => state.AdminReducer);
     console.log(unverifyUser);
     const verified = async(id) => {
@@ -17,13 +18,14 @@ const _UnverifyDealers = () => {
         try {
             const response = await axios.post('/verifyPropertyDealer', {id}, config);
             console.log(response);
+            setReload(!reload);
         } catch (error) {
             console.log(error.response);
         }
     }
     useEffect(() => {
         fetchUnverifyDealers(dispatch);
-    }, []);
+    }, [reload]);
     return (
         <div className="my-5 mx-4" style={{ backgroundColor: 'white' }}>
             <table class="table table-hover">

@@ -32,9 +32,20 @@ module.exports.fetchUnVerifyUsers = async(req, res) => {
 
 module.exports.verifyUser = async(req, res) => {
     const {id} = req.body;
-    console.log(id);
+    // console.log(id);
     try {
         const user = await User.findOneAndUpdate({_id: id}, {verify: true}, { new: true });
+        return res.status(200).json({user});
+    } catch (error) {
+        return res.status(400).json({err: "Server Error"});
+    }
+}
+
+module.exports.unVerifyUser = async(req, res) => {
+    const {id} = req.body;
+    // console.log(id);
+    try {
+        const user = await User.findOneAndUpdate({_id: id}, {verify: false}, { new: true });
         return res.status(200).json({user});
     } catch (error) {
         return res.status(400).json({err: "Server Error"});

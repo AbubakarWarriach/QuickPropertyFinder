@@ -23,7 +23,7 @@ import EditProfile from './userPages/UpdateProfileImage';
 import UpdateProfileImage from './userPages/EditProfile';
 import AddProperty from './userPages/AddProperty';
 import UpdateProperty from './userPages/UpdateProperty';
-// Admin Dashboard....
+
 import AdminDashboard from './components/AdminDashboard';
 import SearchProperties from './pages/SearchProperties';
 import RouteCheck from './components/RouteCheck';
