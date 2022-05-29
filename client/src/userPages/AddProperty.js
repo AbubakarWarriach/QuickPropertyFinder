@@ -6,6 +6,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import AddHouseFeatures from './AddHouseFeatures';
 import AddPlotFeatures from './AddPlotsFeatures';
+import { useHistory } from 'react-router-dom';
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
 const validationSchema = Yup.object({
@@ -28,6 +29,7 @@ const validationSchema = Yup.object({
 });
 
 const AddProperty = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const { user, token } = useSelector(state => state.AuthReducer);
     const [addFeatures, setAddFeatures] = useState(false);
@@ -76,6 +78,7 @@ const AddProperty = () => {
                             console.log(values);
                             //this function below the component
                             dispatch(handleSubmit(values, token, user));
+                            // history.push("/dashboard");
                         }}
                     >
                         {({ values, setFieldValue }) => (
@@ -173,6 +176,7 @@ const AddProperty = () => {
                                             <option value="">Select city</option>
                                             <option value="Gujrat">Gujrat</option>
                                             <option value="Gujranwala">Gujranwala</option>
+                                            <option value="Lahore">Lahore</option>
                                         </Field>
                                         <div className="error"><ErrorMessage name="city" /></div>
                                     </div>

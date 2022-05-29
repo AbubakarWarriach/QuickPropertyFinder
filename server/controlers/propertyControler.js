@@ -108,12 +108,12 @@ module.exports.addProperty = (req, res) => {
 module.exports.fetchProperties = async (req, res) => {
     const id = req.params.id;
     const page = req.params.page;
-    const parPage = 3;
+    const parPage = 4;
     const skip = (Number(page) - 1) * parPage;
     try {
-        const count = await Property.find({ userId: id }).countDocuments();
+        const count = await Property.find({ $and: [{ userId: id }, { disable: true }] }).countDocuments();
         //console.log(count);
-        const response = await Property.find({ userId: id }).skip(skip).limit(parPage);//.sort({title: -1})
+        const response = await Property.find({ $and: [{ userId: id }, { disable: true }] }).skip(skip).limit(parPage);//.sort({title: -1})
         //1console.log(response);
         return res.status(201).json({ response, parPage, count });
     } catch (err) {
@@ -124,7 +124,7 @@ module.exports.fetchProperties = async (req, res) => {
 module.exports.fetchProperty = async (req, res) => {
     const id = req.params.id;
     try {
-        const propertyData = await Property.findOne({ _id: id });
+        const propertyData = await Property.findOne({ $and: [{ _id: id }, { disable: true }] });
         return res.status(200).json({ propertyData });
     } catch (err) {
         return res.status(400).json({ msg: "error" });
@@ -210,52 +210,76 @@ module.exports.updatePropertyImage = async (req, res) => {
 // controler fetch Homes properties for showing Home page...
 module.exports.fetchHomes = async (req, res) => {
     try {
-        const response = await Property.find({ propertyType: "Homes" }).limit(4);
+        const response = await Property.find({ $and: [{ propertyType: "Homes" }, { disable: true }] }).limit(4);
         //console.log(response);
         return res.status(201).json(response);
     } catch (err) {
-        return res.status(400).json({ errors: err.message });
+        return res.status(400).json({ err: err.message });
     }
 }
 
 // controler fetch Plots for showing Home page...
 module.exports.fetchPlots = async (req, res) => {
     try {
-        const response = await Property.find({ propertyType: "Plots" }).limit(4);
+        const response = await Property.find({ $and: [{propertyType: "Plots"}, { disable: true }] }).limit(4);
         //console.log(response);
         return res.status(201).json(response);
     } catch (err) {
-        return res.status(400).json({ errors: err.message });
+        return res.status(400).json({ err: err.message });
     }
 }
 
 module.exports.fetch_Plots_With_Pagination = async (req, res) => {
     const page = req.params.page;
-    const parPage = 3;
+    const parPage = 10;
     const skip = (Number(page) - 1) * parPage;
     try {
-        const count = await Property.find({ propertyType: "Plots" }).countDocuments();
+        const count = await Property.find({ $and: [{propertyType: "Plots"}, { disable: true }] }).countDocuments();
         // console.log(count);
-        const response = await Property.find({ propertyType: "Plots" }).skip(skip).limit(parPage);//.sort({title: -1})
+        const response = await Property.find({ $and: [{propertyType: "Plots"}, { disable: true }] })//.skip(skip).limit(parPage);//.sort({title: -1})
         //1console.log(response);
         return res.status(201).json({ response, parPage, count });
     } catch (err) {
-        return res.status(400).json({ errors: err.message });
+        return res.status(400).json({ err: err.message });
     }
 }
 
 module.exports.fetch_Homes_With_Pagination = async (req, res) => {
     const page = req.params.page;
-    const parPage = 3;
+    const parPage = 10;
     const skip = (Number(page) - 1) * parPage;
     try {
-        const count = await Property.find({ propertyType: "Homes" }).countDocuments();
-        // console.log(count);
-        const response = await Property.find({ propertyType: "Homes" }).skip(skip).limit(parPage);//.sort({title: -1})
-        //1console.log(response);
+        const count = await Property.find({ $and: [{propertyType: "Homes"}, { disable: true }] }).countDocuments();
+        //console.log(count);
+        const response = await Property.find({ $and: [{propertyType: "Homes"}, { disable: true }] })//.skip(skip).limit(parPage);//.sort({title: -1})
+        //console.log(response);
         return res.status(201).json({ response, parPage, count });
     } catch (err) {
-        return res.status(400).json({ errors: err.message });
+        // console.log(err.message)
+        return res.status(400).json({ err: err.message });
+    }
+}
+
+// Property Reserve.....
+module.exports.propertyReserve = async (req, res) => {
+    const { _id } = req.body;
+    try {
+        const resp = await Property.findByIdAndUpdate({ _id: _id }, {reserve: true}, { new: true });
+        return res.status(201).json({ resp });
+    } catch (err) {
+        return res.status(400).json({ error: err.message });
+    }
+}
+
+module.exports.propertyDisable = async (req, res) => {
+    const { id } = req.body;
+    try {
+        console.log("ndewihdi")
+        const resp = await Property.findByIdAndUpdate({ _id: id }, {disable: false}, { new: true });
+        console.log("ndewihdi")
+        return res.status(201).json({ resp });
+    } catch (err) {
+        return res.status(400).json({ error: err.message });
     }
 }
 
@@ -288,7 +312,14 @@ module.exports.fetchClientSearch = async (req, res) => {
     }
 }
 
-
+module.exports.propertyFetchSearchProperties = async(req, res) => {
+    try {
+        const res = await Property.find({});
+        return res.status(201).json(res);
+    } catch (error) {
+        return res.status(400).json({ errors: err.message });
+    }
+}
 
 
 

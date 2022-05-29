@@ -15,6 +15,10 @@ const Homes = () => {
     const { properties, count, parPage } = useSelector(state => state.PropertyReducer);
     console.log(properties);
 
+    if (page == undefined) {
+        page = 1
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(searchData);
@@ -109,9 +113,10 @@ const Homes = () => {
                                 </div>
                                 <div class="col-md-8 right-side-details">
                                     <div class="card-body">
-                                        <h5 class="card-title">{val.title}</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                        <h5 class="card-title text-success">{val.title}</h5>
+                                        <p class="card-text">{val.description}</p>
+                                        <p class="card-text text-danger">Rs: {val.price}</p>
+                                        <p class="card-text"><small class="text-muted">{val.city} / {val.location}</small></p>
                                     </div>
                                 </div>
                             </div>

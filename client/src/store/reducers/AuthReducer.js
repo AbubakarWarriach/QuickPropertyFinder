@@ -4,7 +4,7 @@ export const LOGOUT="LOGOUT";
 
 const initState = {
     token: '',
-    user: {},
+    user: null,
 };
 const verifyToken = (token) => {
     const decodedToken = jwt_decode(token);
@@ -33,7 +33,7 @@ const AuthReducer = ((state = initState, action) => {
             //console.log(user);
             return { ...state, token: action.paylood, user: user };
         case LOGOUT:
-            return{ ...state, token: '', user: ''};
+            return{ ...state, token: '', user: null};
         default:
             return state
     }

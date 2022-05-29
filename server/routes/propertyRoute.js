@@ -3,8 +3,8 @@ const route = app.Router();
 const {
     addProperty, fetchProperties, fetchProperty,
     updatePropertyFeatures, updatePropertyImage, fetchHomes,
-    fetchPlots, fetch_Homes_With_Pagination,
-    fetchClientSearch, fetch_Plots_With_Pagination
+    fetchPlots, fetch_Homes_With_Pagination, propertyDisable,
+    fetchClientSearch, fetch_Plots_With_Pagination, propertyReserve,propertyFetchSearchProperties
 } = require('../controlers/propertyControler');
 const auth = require('../utils/auth');
 route.post('/add_property', auth, addProperty);
@@ -32,11 +32,12 @@ route.get("/fetch_homes_with_pagination/:page", fetch_Homes_With_Pagination);
 // end point of user search....
 route.post("/fetch_client_search/:page", fetchClientSearch);
 
-module.exports = route;
+// end point of property reserve....
+route.post("/property_reserve", propertyReserve);
 
-// fetch Comercial Plots for showing  plots page....
-//route.get("/fetch_comercial_plots", fetchComercialPlots);
-// fetch Residential Plots for showing plots page....
-//route.get("/fetch_residential_plots", fetchResidentialPlots);
-// fetch Residential Plots for showing plots page....
-//route.get("/fetch_agricultural_plots", fetchResidentialPlots);
+// end point of property disable....
+route.post("/property_disable", propertyDisable);
+
+route.get("/fetch_search_properties", propertyFetchSearchProperties)
+
+module.exports = route;

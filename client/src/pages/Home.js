@@ -32,7 +32,8 @@ const Home = () => {
     useEffect(() => {
         fetchHomesProperty(setHomesPropertyData);
         fetchPlotsProperty(setPlotsPropertyData);
-        fetchDealers(setDealersData)
+        fetchDealers(setDealersData);
+        // fetchPropertyForSearch()
     }, []);
     return (
         <>
@@ -108,7 +109,7 @@ const Home = () => {
                             return (
                                 <div className="col-sm-6 col-md-4 col-xl-3" key={val._id}>
                                     <div class="card">
-                                        <Link to="/">
+                                        <Link to={`/property_details/${val._id}`}>
                                             <img src={`/PropertyImages/${val.photo}`} class="card-img-top" alt="not found" />
                                         </Link>
                                         <div class="card-body">
@@ -143,13 +144,13 @@ const Home = () => {
                             return (
                                 <div className="col-sm-6 col-md-4 col-xl-3" key={val._id}>
                                     <div class="card">
-                                        <Link to="/">
+                                        <Link to={`/property_details/${val._id}`}>
                                             <img src={`/PropertyImages/${val.photo}`} class="card-img-top" alt="not found" />
                                         </Link>
                                         <div class="card-body">
-                                            <h5 class="card-title text-center">Card title</h5>
-                                            <p className="text-center">PKR 2.5 lakh</p>
-                                            <p className="text-center">Location</p>
+                                            <h5 class="card-title text-center">{val.title}</h5>
+                                            <p className="text-center">Rs. {val.price}</p>
+                                            <p className="text-center"></p>
                                         </div>
                                         <div class="card-footer text-center">
                                             <Link to={`/dealer/${val.userId}`} class="text-light link">View Dealer Profile</Link>
@@ -180,7 +181,9 @@ const Home = () => {
                                     <div class="text-center card-box">
                                         <div class="member-card pt-2 pb-2">
                                             <div class="thumb-lg member-thumb mx-auto">
-                                                <img src={`/ProfileImage/${val.photo}`} class="profile-image-home" alt="not found" />
+                                                <Link to={`/dealer/${val._id}`}>
+                                                    <img src={`/ProfileImage/${val.photo}`} class="profile-image-home" alt="not found" />
+                                                </Link>
                                             </div>
                                             <div class="">
                                                 <h4>{val.fname} {val.lname}</h4>

@@ -45,6 +45,14 @@ const propertySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    reserve: {
+        type: Boolean,
+        default: false
+    },
+    disable: {
+        type: Boolean,
+        default: true
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'

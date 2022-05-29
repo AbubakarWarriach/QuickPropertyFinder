@@ -1,68 +1,100 @@
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from "react-router-dom";
 import { BsArrowRightCircleFill } from "react-icons/bs";
-import { useEffect } from "react";
+import React,{ useEffect } from "react";
 import axios from 'axios';
 import { SET_PROPERTY } from '../store/reducers/PropertyReducer';
+import { SET_RESERVE_PROPERTY } from '../store/reducers/SearchReducer';
+import { GoogleMap } from '@react-google-maps/api';
 
 const PropertyDetails = () => {
     const history = useHistory()
     const dispatch = useDispatch();
-    const {property} = useSelector((state)=>state.PropertyReducer);
-    const {customer} = useSelector((state)=>state.CustomerReducer);
+    const { property } = useSelector((state) => state.PropertyReducer);
+    const { customer } = useSelector((state) => state.CustomerReducer);
     console.log(property);
+    console.log(property.reserve);
     const { id } = useParams();
     const handleReserve = () => {
-        if(customer){
+        if (customer) {
+            dispatch({ type: SET_RESERVE_PROPERTY, paylood: property });
+            // setInterval(()=>{
             history.push("/reserve_property");
-        }else{
+            // }, 800);
+        } else {
             history.push("/signup_customer");
         }
     }
-    useEffect(()=>{
+    const containerStyle = {
+        width: '500px',
+        height: '600px'
+    };
+    
+    const center = {
+        lat: -3.745,
+        lng: -38.523
+    };
+    const mapRef=React.useRef(undefined)
+  const onLoad = React.useCallback(function callback(map) {
+    mapRef.current=map
+  }, [])
+
+  const onUnmount = React.useCallback(function callback() {
+    mapRef.current=undefined
+  }, [])
+
+    useEffect(() => {
         dispatch(fetchProperty(id));
     }, [id]);
     return (
         <div className="container property-details-card">
             <div>
-                <img src={`/PropertyImages/${property.photo}`} className="img-fluid" alt="image not found" />
+                <div style={{ display: 'flex' }}>
+                    {/* <img src={`/PropertyImages/${property.photo}`} className="img-fluid" alt="image not found" /> */}
+                    <div >
+                        <GoogleMap
+                            mapContainerStyle={containerStyle}
+                            center={center}
+                            zoom={10}
+                            onLoad={onLoad}
+                            onUnmount={onUnmount}
+                        >
+                            { /* Child components, such as markers, info windows, etc. */}
+                            <></>
+                        </GoogleMap>
+                    </div>
+                </div>
                 <div>
                     <span className="lead">QuickPropertyFinder / </span>
-                    <span className="lead">Homes / </span>
-                    <span className="lead">House / </span>
-                    <span className="lead">Address / </span>
+                    <span className="lead">{property.propertyType} / </span>
+                    <span className="lead">{property.city} / </span>
+                    <span className="lead">{property.location} / </span>
                 </div>
                 <hr />
             </div>
             <div className="row">
                 <div className="col-md-8">
-                    <h3>5 Marla House For Sale In Gulshan E Ali Colony Lahore</h3>
-                    <p>Jazz Franchise, Bhatta Chock, Gulshan e Ali Colony , Lahore</p>
+                    <h3 className='text-success'>{property.title}</h3>
+                    <p>{property.location} , {property.city}</p>
                     <hr />
                     <div>
                         <h4>Property Description Details</h4>
                         <div className="row mt-3">
                             <div className="col-sm-5">
-                                <p className="lead">Property ID: <b>68659</b></p>
-                            </div>
-                            <div className="col-sm-5">
-                                <p className="lead">Type: <b>Homes / House</b></p>
+                                <p className="lead">Property Dealer: <b>{property.userName}</b></p>
                             </div>
                         </div>
-                        <p className="">5 Marla House For Sale In Gulshan E Ali Colony Lahore</p>
-                        <p><b><BsArrowRightCircleFill /> FEATURES:</b></p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ac orci eu dui tincidunt
-                            efficitur non non erat. Sed scelerisque turpis vel nisi euismod viverra. Mauris aliquet,
-                            purus vel lobortis fermentum, arcu dui eleifend orci, sed porta odio nulla vel mauris.
-                            Proin euismod metus vel ante interdum efficitur. Aenean maximus ante risus, vel sodales
-                            purus elementum non. Vivamus tristique augue vitae nisl tempus ornare. Integer sit amet
-                            dapibus arcu. Curabitur eget pellentesque ante. Nullam pretium erat sit amet orci dictum
-                            malesuada. Maecenas aliquam felis vel odio dictum, vitae tincidunt neque porttitor.
-                            Curabitur tempor ac urna sit amet commodo. Mauris feugiat nulla non mollis sollicitudin.
-                            In a dui sit amet nisl venenatis dapibus. Fusce dapibus, turpis a elementum pharetra,
-                            justo tortor scelerisque velit, ut euismod purus elit ultricies sem. Fusce mollis eget
-                            metus vitae tristique.</p>
-                            <button className='btn btn-success' onClick={handleReserve}>Reserve</button>
+                        <p><b><BsArrowRightCircleFill /> DESCRIPTION:</b></p>
+                        <p>{property.description}</p>
+                        {/* <p><b><BsArrowRightCircleFill /> FEATURES:</b></p> */}
+                        {!(property.reserve) && <p>Reserve Amount Rs. {property.price * 0.5 / 100}</p>}
+                        {
+                            !(property.reserve) ? <button className='btn btn-success' onClick={handleReserve}>
+                                Reserve
+                            </button> : <button className='btn btn-success' disabled>
+                                Reserved
+                            </button>
+                        }
                     </div>
                 </div>
                 {/* <div className="col-md-4 side-bar">
@@ -75,19 +107,19 @@ const PropertyDetails = () => {
 }
 
 const fetchProperty = (id) => {
-    return async(dispatch) => {
+    return async (dispatch) => {
         const config = {
             headers: {
                 "Content-Type": "application/json",
             },
         };
-        try{
+        try {
             const response = await axios.get(`/fetch_property/${id}`, config);
             console.log(response);
-            const {propertyData} = response.data;
+            const { propertyData } = response.data;
             console.log(propertyData);
-            dispatch({type: SET_PROPERTY, paylood: propertyData});
-        }catch(err){
+            dispatch({ type: SET_PROPERTY, paylood: propertyData });
+        } catch (err) {
             console.log("runing is success");
             console.log(err);
         }

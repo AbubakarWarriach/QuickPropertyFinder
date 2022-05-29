@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
     return (
         <>
-            <footer class="page-footer font-small footerStyle pt-4">
+            <footer class="page-footer font-small footerStyle pt-4" style={{marginTop: '278px'}}>
                 <div class="container">
                     <ul class="list-unstyled list-inline text-center py-2">
                         <li class="list-inline-item">

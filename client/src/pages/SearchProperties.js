@@ -1,37 +1,41 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-//import axios from "axios";
-//import { SET_PROPERTIES } from "../store/reducers/PropertyReducer";
+import axios from "axios";
+import { SET_PROPERTIES } from "../store/reducers/PropertyReducer";
 
 const SearchProperties = () => {
     let { page } = useParams();
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [searchData, setSearchData] = useState({});
     const { userSearch } = useSelector((state) => state.SearchReducer);
     //const {properties} = useSelector((state)=>state.PropertyReducer);
-    console.log(userSearch);
+
     //console.log(properties);
-    setSearchData(userSearch);
+    // setSearchData(userSearch);
     if (page === undefined) {
         page = 1;
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(searchData);
+        // console.log(searchData);
+        // console.log(userSearch);
+        clientSearchProperties(page, dispatch, userSearch);
     }
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        console.log(name, " : ", value);
+        // console.log(name, " : ", value);
         setSearchData({
             ...searchData,
-            [name]: value,
+            [name]: value
         })
     }
-    // useEffect(() => {
-    //     clientSearchProperties(page, dispatch, userSearch);
-    // }, [userSearch, page]);
+    useEffect(() => {
+        setSearchData(userSearch);
+        clientSearchProperties(page, dispatch, userSearch);
+        fetchPropertyForSearch();
+    }, [userSearch, page]);
     return (
         <>
             <div class="header-section header-section-plot">
@@ -97,7 +101,7 @@ const SearchProperties = () => {
         </>
     )
 }
-/*
+
 const clientSearchProperties = async (page, dispatch, userSearch) => {
     try {
         const config = {
@@ -116,5 +120,19 @@ const clientSearchProperties = async (page, dispatch, userSearch) => {
         //dispatch({ type: Close_Loader });
     }
 }
-*/
+
+const fetchPropertyForSearch = async() => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    try {
+        const response = await axios.get("fetch_search_properties", config);
+        console.log(response);
+    } catch (error) {
+        console.log(error.response);
+    }
+}
+
 export default SearchProperties;

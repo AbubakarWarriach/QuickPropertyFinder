@@ -7,6 +7,7 @@ import axios from "axios";
 import { BsFillTrashFill, BsFillPenFill } from "react-icons/bs";
 
 const Dashboard = () => {
+    const [relod, setRelod] = useState(0);
     const pageName = "dashboard";
     const { user: { _id } } = useSelector(state => state.AuthReducer);
     const { properties, count, parPage } = useSelector(state => state.PropertyReducer);
@@ -16,13 +17,24 @@ const Dashboard = () => {
     if (page === undefined) {
         page = 1;
     }
-    const handleDelete = (id) => {
-        
+    const handleDelete = async(id) => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        try {
+            const res = await axios.post("/property_disable", {id}, config);
+            console.log(res);
+            setRelod(1);
+        } catch (error) {
+            console.log(error.response);
+        }
     }
     useEffect(() => {
         // console.log(_id);
         dispatch(fetchProperties(_id, page));
-    }, [page]);
+    }, [page, relod]);
     // useEffect(()=>{
     //     setData(properties);
     //     console.log(data);
@@ -43,7 +55,7 @@ const Dashboard = () => {
                                             <span className="text-success mx-2 edit-btn">
                                                 <Link to={`/update_property/${val._id}`}><BsFillPenFill/></Link>
                                             </span>
-                                            <span className="text-danger mx-1 del-btn" onClick={handleDelete(val._id)}><BsFillTrashFill/></span>
+                                            <span className="text-danger mx-1 del-btn" onClick={()=>handleDelete(val._id)}><BsFillTrashFill/></span>
                                         </span>
                                     </div>
                                     <hr/>

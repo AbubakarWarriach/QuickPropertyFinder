@@ -1,4 +1,5 @@
 const { User } = require('../model/userSchema');
+const {Reserved} = require('../model/reserveSchema');
 
 // fetch verify user in this controler
 module.exports.fetchVerifyUsers = async(req, res) => {
@@ -47,6 +48,32 @@ module.exports.unVerifyUser = async(req, res) => {
     try {
         const user = await User.findOneAndUpdate({_id: id}, {verify: false}, { new: true });
         return res.status(200).json({user});
+    } catch (error) {
+        return res.status(400).json({err: "Server Error"});
+    }
+}
+
+module.exports.saveReserveProperty = async(req, res) => {
+    const { _id, title, userName, userId, customerId } = req.body;
+    try {
+        const res = await Reserved.create({
+            propertyTitle: title,
+            propertyId: _id,
+            customerId: customerId,
+            customerName: 'customer',
+            dealerId: userId,
+            dealerName: userName
+        });
+        return res.status(201).json(res);
+    } catch (error) {
+        return res.status(400).json({err: "Server Error"});
+    }
+}
+
+module.exports.fetchReservedCustomer = async(req, res) => {
+    try {
+        const res = await Reserved.get({});
+        return res.status(201).json(res);
     } catch (error) {
         return res.status(400).json({err: "Server Error"});
     }

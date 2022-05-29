@@ -9,7 +9,7 @@ const _Dashboard = () => {
                             <h3 class="fs-2">720</h3>
                             <p class="fs-5">Products</p>
                         </div>
-                        <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i>
+                        {/* <i class="fas fa-gift fs-1 primary-text border rounded-full secondary-bg p-3"></i> */}
                     </div>
                 </div>
 

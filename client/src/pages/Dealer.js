@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { useState } from "react/cjs/react.development";
 
 const Dealer = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [dealerDetail, setDealerDetail] = useState([]);
-    useEffect(()=>{
+    useEffect(() => {
         fetchDealerDetail(id, setDealerDetail);
-    },[id])
-    return(
+    }, [id])
+    return (
         <section class="section about-section gray-bg" id="about">
             <div class="container">
                 <div class="row align-items-center flex-row-reverse">
@@ -17,27 +17,29 @@ const Dealer = () => {
                         <div class="about-text go-to">
                             <h3 class="dark-color">About Me</h3>
                             <h6 class="theme-color lead">{dealerDetail.title}</h6>
-                            <p>I <mark>design and develop</mark> services for customers of all sizes, specializing in creating stylish, modern websites, web services and online stores. My passion is to design digital user experiences through the bold interface and meaningful interactions.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a dictum diam. Vivamus sodales diam at erat
+                                mollis, in tempor neque dignissim. Suspendisse vitae dignissim nunc, nec auctor orci.
+                                Nam tristique luctus imperdiet. Sed egestas lorem quis leo scelerisque, ac dignissim mi bibendum.</p>
                             <div class="row about-list">
                                 <div class="col-md-6">
                                     <div class="media">
-                                        <label>Birthday</label>
-                                        <p>4th april 1998</p>
+                                        <label>Name</label>
+                                        <p>{dealerDetail.fname} {dealerDetail.lname}</p>
                                     </div>
                                     <div class="media">
-                                        <label>Age</label>
-                                        <p>22 Yr</p>
+                                        <label>Email</label>
+                                        <p>{dealerDetail.email}</p>
                                     </div>
                                     <div class="media">
-                                        <label>Residence</label>
-                                        <p>Pakistan</p>
+                                        <label>Contact</label>
+                                        <p>{dealerDetail.phone}</p>
                                     </div>
                                     <div class="media">
                                         <label>Address</label>
-                                        <p>California, USA</p>
+                                        <p>{dealerDetail.address}</p>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                {/* <div class="col-md-6">
                                     <div class="media">
                                         <label>E-mail</label>
                                         <p>{dealerDetail.email}</p>
@@ -54,7 +56,7 @@ const Dealer = () => {
                                         <label>Freelance</label>
                                         <p>Available</p>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@ const Dealer = () => {
                         </div>
                     </div>
                 </div>
-                <div class="counter">
+                {/* <div class="counter">
                     <div class="row">
                         <div class="col-6 col-lg-3">
                             <div class="count-data text-center">
@@ -91,13 +93,13 @@ const Dealer = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </section>
     )
 }
 
-const fetchDealerDetail = async(id, setDealerDetail) => {
+const fetchDealerDetail = async (id, setDealerDetail) => {
     const config = {
         headers: {
             "Content-Type": "application/json"

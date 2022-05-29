@@ -98,7 +98,7 @@ const handleRegister = (values) => {
             localStorage.setItem("customerToken", token);
             dispatch({ type: SET_TOKON_CUSTOMER, paylood: token });
         } catch (error) {
-            //console.log(error.response);
+            console.log(error.response);
             const { msg } = error.response.data;
             //console.log(msg);
             toast.error(msg);

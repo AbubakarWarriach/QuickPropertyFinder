@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { SET_TOKON } from '../store/reducers/AuthReducer';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const validationSchema = Yup.object({
     email: Yup.string().email("Invaliad").required("email must be required"),
@@ -13,6 +13,7 @@ const validationSchema = Yup.object({
 });
 
 const SignunCustomer = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     return (
         <div className="container">
@@ -29,7 +30,10 @@ const SignunCustomer = () => {
                         onSubmit={(values) => {
                             //console.log(values);
                             //this function below the component
-                            dispatch(handleLogin(values));
+                            dispatch(handleLogin(values, history));
+                            // setInterval(()=>{
+                                // history.push("/reserve_property");
+                            // },1000)
                         }}
                     >
                         <Form className="row g-1">
@@ -55,7 +59,7 @@ const SignunCustomer = () => {
     )
 }
 
-const handleLogin = (values) => {
+const handleLogin = (values, history) => {
     return async (dispatch) => {
         const config = {
             headers: {
@@ -68,12 +72,13 @@ const handleLogin = (values) => {
             localStorage.setItem("customerToken", token);
             dispatch({ type: SET_TOKON, paylood: token });
             toast.success(msg);
+            history.push("/reserve_property");
         } catch (error) {
-            //console.log(error.response);
-            const { msg } = error.response.data;
-            //const {msg} = data;
-            console.log(msg);
-            toast.error(msg);
+            console.log(error.response);
+            // const { data } = error.response;
+            // const {msg} = data;
+            // console.log(msg);
+            // toast.error(msg);
         }
     }
 }

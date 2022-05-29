@@ -47,7 +47,7 @@ const Signup = () => {
             <Toaster />
             <div className="row">
                 <div className="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-10 mx-auto mb-5 signup-form">
-                <h1 className="text-center">Registration</h1>
+                <h1 className="text-center">Dealer Registration</h1>
                     <Formik
                         initialValues={{
                             fname: '',
